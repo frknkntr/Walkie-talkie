@@ -4,7 +4,6 @@ let audioUrl;
 let stream;
 
 const recordBtn = document.querySelector('.record-btn');
-const playBtn = document.querySelector('.play-btn');
 
 // Her istemciye benzersiz bir ID ver
 const myClientId = Math.random().toString(36).substr(2, 9);
@@ -18,7 +17,6 @@ recordBtn.addEventListener('touchstart', startRecording);
 recordBtn.addEventListener('mouseup', stopRecording);
 recordBtn.addEventListener('mouseleave', stopRecording);
 recordBtn.addEventListener('touchend', stopRecording);
-playBtn.addEventListener('click', playRecording);
 
 // Kanalı dinle, yeni ses gelirse otomatik çal
 channel.subscribe('voice', (msg) => {
@@ -60,7 +58,6 @@ async function startRecording(e) {
         mediaRecorder.onstop = sendToAbly;
         mediaRecorder.start();
         recordBtn.textContent = 'KAYDEDİYOR';
-        playBtn.style.display = 'none';
     } catch (err) {
         // Hata zaten gösterildi
     }
@@ -96,11 +93,4 @@ function base64ToBlob(base64, mime) {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mime });
-}
-
-// Eski "Dinle" butonu işlevi (artık gerek yok, ama isterseniz bırakabiliriz)
-function playRecording() {
-    if (!audioUrl) return;
-    const audio = new Audio(audioUrl);
-    audio.play();
 } 
